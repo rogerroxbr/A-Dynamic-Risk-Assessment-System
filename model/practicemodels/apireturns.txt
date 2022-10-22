@@ -23,10 +23,10 @@ Diagnostics Summary
 {
   "execution_time": [
     {
-      "ingest_time_mean": 0.6283571999999997
+      "ingest_time_mean": 0.6593237749999993
     }, 
     {
-      "train_time_mean": 0.9842703749999993
+      "train_time_mean": 1.0665468999999992
     }
   ], 
   "missing_percentage": {

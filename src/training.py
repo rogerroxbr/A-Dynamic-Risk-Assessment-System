@@ -119,7 +119,7 @@ def train_model(data: dict, model_dir: str) -> None:
         pickle.dump(model, modelfile)
 
 
-if __name__ == "__main__":
+def main():
 
     dataset_csv_path = DATA_PATH
     model_dir = MODEL_PATH

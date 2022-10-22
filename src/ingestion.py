@@ -56,7 +56,7 @@ def clean_dataset(df: DataFrame) -> DataFrame:
     return temp
 
 
-if __name__ == "__main__":
+def main():
 
     input_folder_path = INPUT_FOLDER_PATH
     output_folder_path = DATA_PATH
@@ -65,5 +65,9 @@ if __name__ == "__main__":
     cleaned_df = clean_dataset(concat_df)
 
     output_df_path = os.path.join(output_folder_path, f"finaldata.csv")
-    logging.info(f"Writing cleaned DataFrame to {output_df_path}")
+    print(f"Writing cleaned DataFrame to {output_df_path}")
     cleaned_df.to_csv(output_df_path, index=False)
+
+
+if __name__ == "__main__":
+    main()

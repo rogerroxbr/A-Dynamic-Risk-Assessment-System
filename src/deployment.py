@@ -4,42 +4,35 @@ Date: October, 2022
 This script used to deploy the trained model
 """
 import os
-import shutil
 import sys
+import shutil
 import logging
 
-from utils import get_latest_file
-from config import MODEL_PATH, DATA_PATH, PROD_DEPLOYMENT_PATH
+from config import DATA_PATH, MODEL_PATH, PROD_DEPLOYMENT_PATH
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 
-def store_production_files(dst: str, *args) -> None:
+def deploy_model():
     """
-    Copy files from their source directories to a destination dir
-    :param dst: Destination dir to copy files
-    :param args: Files to be be copied
-    :return: None
+    Copy the latest model pickle file, the latestscore.txt value,
+    and the ingestfiles.txt file into the deployment directory
     """
-    os.makedirs(dst, exist_ok=True)
-    for file in args:
-        filename = file.split(os.sep)[1]
-        new_filename = filename.split("_")[0] + "." + filename.split(".")[-1]
-        path = os.path.join(dst, new_filename)
-        logging.info("Copying %s to %s", filename, path)
-        shutil.copy2(file, path)
+    logging.info("Deploying trained model to production")
+    logging.info(
+        "Copying trainedmodel.pkl, ingestfiles.txt and latestscore.txt"
+    )
+    shutil.copy(
+        os.path.join(DATA_PATH, "ingestedfiles.txt"), PROD_DEPLOYMENT_PATH
+    )
+    shutil.copy(
+        os.path.join(MODEL_PATH, "trainedmodel.pkl"), PROD_DEPLOYMENT_PATH
+    )
+    shutil.copy(
+        os.path.join(MODEL_PATH, "latestscore.txt"), PROD_DEPLOYMENT_PATH
+    )
 
 
 if __name__ == "__main__":
-    model_dir = MODEL_PATH
-    output_folder_path = DATA_PATH
-    deployment_path = PROD_DEPLOYMENT_PATH
-
-    model_path = get_latest_file(model_dir, "trainedmodel_*.pkl")
-    metric_path = get_latest_file(model_dir, "latestscore_*.txt")
-    ingest_record_path = get_latest_file(
-        output_folder_path, "ingestedfiles_*.txt"
-    )
-    store_production_files(
-        deployment_path, model_path, metric_path, ingest_record_path
-    )
+    logging.info("Running deployment.py")
+    deploy_model()

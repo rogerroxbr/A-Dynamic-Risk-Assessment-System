@@ -46,7 +46,7 @@ def prepare_dataset(
         }
     else DataFrame
     """
-    dataset_list = glob.glob(f"{dataset_path}/finaldata_*.csv")
+    dataset_list = glob.glob(f"{dataset_path}/finaldata.csv")
     dataset_list.sort()
     dataset = pd.read_csv(dataset_list[-1])  # Most recent dataset is used.
     logging.info(
@@ -111,9 +111,7 @@ def train_model(data: dict, model_dir: str) -> None:
     logging.info(classification_report(data["val"]["y"], predictions))
 
     os.makedirs(model_dir, exist_ok=True)
-    model_path = os.path.join(
-        model_dir, f"trainedmodel_{time.strftime('%y%m%d%H%M%S')}.pkl"
-    )
+    model_path = os.path.join(model_dir, f"trainedmodel.pkl")
 
     logging.info("Persisting fitted model to %s ... ", model_path)
 
